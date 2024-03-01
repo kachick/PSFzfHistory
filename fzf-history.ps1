@@ -1,3 +1,3 @@
 function Get-History-Fzf {
-  Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
+  [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() | ForEach-Object {$_.CommandLine.ToString()} | Select-String "." | Sort-Object ToString | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
 }

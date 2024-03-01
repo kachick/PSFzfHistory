@@ -15,3 +15,7 @@
 > dprint --version
 ...
 ```
+
+## Note for develop
+
+Map index in pipe: https://github.com/PowerShell/PowerShell/issues/13772
