@@ -10,5 +10,3 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
     [Microsoft.PowerShell.PSConsoleReadLine]::BackwardDeleteLine()
     [Microsoft.PowerShell.PSConsoleReadLine]::Insert($command)
 }
-
-
