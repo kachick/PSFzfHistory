@@ -26,6 +26,9 @@ tasks:
       - dprint check
       - typos . .github .vscode
       - nixpkgs-fmt --check ./*.nix
+  repl:
+    cmds:
+      - pwsh -NoExit -File repl.ps1
   deps:
     cmds:
       - nix --version

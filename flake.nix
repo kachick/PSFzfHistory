@@ -31,6 +31,7 @@
               gnugrep
 
               powershell
+              fzf
             ];
           };
       }
