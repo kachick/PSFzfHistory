@@ -19,3 +19,4 @@
 ## Note for develop
 
 Map index in pipe: https://github.com/PowerShell/PowerShell/issues/13772
+Formatte, but not CLI - https://github.com/PowerShell/PSScriptAnalyzer

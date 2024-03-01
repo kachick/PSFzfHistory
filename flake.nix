@@ -27,6 +27,10 @@
               dprint
               typos
               go-task
+              coreutils
+              gnugrep
+
+              powershell
             ];
           };
       }

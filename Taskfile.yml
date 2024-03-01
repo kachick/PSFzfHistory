@@ -14,7 +14,9 @@ tasks:
       - task: lint
   test:
     cmds:
-      - echo 'Update here'
+      # pwsh exit with 0 even if ReadLine made errors, the 1+ code is special for an example as parser error
+      # So testing here with the "silentness"
+      - pwsh --File test-all.ps1 2>&1 | wc --bytes | grep -Fxq '0'
   fmt:
     cmds:
       - dprint fmt
@@ -31,3 +33,6 @@ tasks:
       - task --version
       - dprint --version
       - typos --version
+      - pwsh --version
+      - grep --version
+      - wc --version
