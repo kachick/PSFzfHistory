@@ -16,7 +16,7 @@ tasks:
     cmds:
       # pwsh exit with 0 even if ReadLine made errors, the 1+ code is special for an example as parser error
       # So testing here with the "silentness"
-      - pwsh --File test-all.ps1 2>&1 | wc --bytes | grep -Fxq '0'
+      - pwsh --File src/test-all.ps1 2>&1 | wc --bytes | grep -Fxq '0'
   fmt:
     cmds:
       - dprint fmt
@@ -29,7 +29,7 @@ tasks:
       - nixpkgs-fmt --check ./*.nix
   repl:
     cmds:
-      - pwsh -NoExit -File repl.ps1
+      - pwsh -NoExit -File src/repl.ps1
   setup:
     cmds:
       - pwsh --Command 'Install-Module -Name PSScriptAnalyzer -Force'

@@ -1,2 +1,2 @@
-. .\fzf-history.ps1
-. .\keybindings.ps1
+. .\src\fzf-history.ps1
+. .\src\keybindings.ps1
