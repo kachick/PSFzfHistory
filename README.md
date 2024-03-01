@@ -46,10 +46,6 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
 
 - (Optional) Provide easy install way
 
-Chores
-
-- Formatter - https://github.com/PowerShell/PSScriptAnalyzer
-
 ## Motivation
 
 https://github.com/kelleyma49/PSFzf is helpful, but the loading is much slow for me.
