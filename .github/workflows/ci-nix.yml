@@ -35,6 +35,7 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v3
       - run: nix flake check
       - run: nix develop --command echo 'This step should be done before any other "nix develop" steps because of measuring Nix build time'
+      - run: nix develop --command task setup
       - run: nix develop --command task deps
       - run: nix develop --command task check
       # - run: nix run . -- --version
