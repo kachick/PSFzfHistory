@@ -21,7 +21,7 @@ And this
 
 ```pwsh
 function Get-History-Fzf {
-  Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
+  Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort --height=40%
 }
 
 Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
@@ -31,6 +31,10 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
     }
 }
 ```
+
+## Limitations
+
+Loaded history expect one line: https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
 
 ## TODO
 
@@ -46,4 +50,4 @@ Chores
 
 https://github.com/kelleyma49/PSFzf is helpful, but the loading is much slow for me.
 
-I noticed I just want history finder, and we can realize with tiny PowerShell code and depending only fzf.
+I noticed I just want history finder, and we may realize with tiny PowerShell code and depending only fzf.
