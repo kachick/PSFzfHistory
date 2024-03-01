@@ -21,7 +21,7 @@ And this
 
 ```pwsh
 function Get-History-Fzf {
-  Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort --height=40%
+  Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
 }
 
 Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
@@ -34,7 +34,8 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
 
 ## Limitations
 
-Loaded history expect one line: https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
+- Loaded history expect one line: https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
+- Adding height option disables keybinding
 
 ## TODO
 
