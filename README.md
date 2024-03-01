@@ -20,14 +20,27 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 And this
 
 ```pwsh
-Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
+function Get-History-Fzf {
+  Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
+}
+
+Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
+    $command = Get-History-Fzf
+    if ($command) {
+      [Microsoft.PowerShell.PSConsoleReadLine]::Insert($command)
+    }
+}
 ```
 
-TODO:
+## TODO
 
 - Functionize
 - Keybinding
 - (Optional) Provide easy install way
+
+Chores
+
+- Formatter - https://github.com/PowerShell/PSScriptAnalyzer
 
 ## Motivation
 
