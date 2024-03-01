@@ -20,15 +20,19 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 And this
 
 ```pwsh
-function Get-History-Fzf {
-  Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
+function Get-History-Fzf([String]$line) {
+  [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() | ForEach-Object {$_.CommandLine.ToString()} | Select-String "." | Sort-Object ToString | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort --query=$line
 }
 
 Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
-    $command = Get-History-Fzf
-    if ($command) {
-      [Microsoft.PowerShell.PSConsoleReadLine]::Insert($command)
+    $line = $null
+    $cursor = $null
+    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
+    $command = Get-History-Fzf $line
+    if (!$command) {
+      return
     }
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($command)
 }
 ```
 
@@ -39,8 +43,6 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
 
 ## TODO
 
-- Functionize
-- Keybinding
 - (Optional) Provide easy install way
 
 Chores
