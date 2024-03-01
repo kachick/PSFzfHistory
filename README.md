@@ -1,6 +1,36 @@
-# anylang-template
+# pwsh-fzf-history
 
-[![CI - Nix Status](https://github.com/kachick/anylang-template/actions/workflows/ci-nix.yml/badge.svg?branch=main)](https://github.com/kachick/anylang-template/actions/workflows/ci-nix.yml?query=branch%3Amain+)
+[![CI - Nix Status](https://github.com/kachick/pwsh-fzf-history/actions/workflows/ci-nix.yml/badge.svg?branch=main)](https://github.com/kachick/pwsh-fzf-history/actions/workflows/ci-nix.yml?query=branch%3Amain+)
 
-A template that is not exclusive to one programming language.\
-Basic setup for editor, documents and GitHub Actions.
+fzf integration for pwsh(PowerShell) to realize history substring search with tiny code
+
+## Usage
+
+As a preparation step, install and add the path for fzf with your favorite method
+
+```pwsh
+# Install fzf
+winget install --exact --id junegunn.fzf
+
+# Make sure the winget tools in your PATH
+# https://github.com/microsoft/winget-cli/issues/2498#issuecomment-1553863082
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+```
+
+And this
+
+```pwsh
+Get-Content (Get-PSReadlineOption).HistorySavepath | Select-String "." | Sort-Object Line | Get-Unique | Sort-Object LineNumber -Descending | fzf --scheme=history --no-sort
+```
+
+TODO:
+
+- Functionize
+- Keybinding
+- (Optional) Provide easy install way
+
+## Motivation
+
+https://github.com/kelleyma49/PSFzf is helpful, but the loading is much slow for me.
+
+I noticed I just want history finder, and we can realize with tiny PowerShell code and depending only fzf.
