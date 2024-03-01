@@ -21,14 +21,12 @@ tasks:
     cmds:
       - dprint fmt
       - nixpkgs-fmt ./*.nix
+      - pwsh -Command "Invoke-ScriptAnalyzer -Recurse -ReportSummary -EnableExit -Settings CodeFormatting -Fix -Path src"
   lint:
     cmds:
       - dprint check
       - typos . .github .vscode
       - nixpkgs-fmt --check ./*.nix
-  fmt:
-    cmds:
-      - pwsh -Command "Invoke-ScriptAnalyzer -Recurse -ReportSummary -EnableExit -Settings CodeFormatting -Fix -Path src"
   repl:
     cmds:
       - pwsh -NoExit -File repl.ps1
