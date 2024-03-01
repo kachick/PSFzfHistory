@@ -1,0 +1,33 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  default:
+    deps:
+      - task: fmt
+      - task: lint
+      - task: test
+  check:
+    deps:
+      - task: test
+      - task: lint
+  test:
+    cmds:
+      - echo 'Update here'
+  fmt:
+    cmds:
+      - dprint fmt
+      - nixpkgs-fmt ./*.nix
+  lint:
+    cmds:
+      - dprint check
+      - typos . .github .vscode
+      - nixpkgs-fmt --check ./*.nix
+  deps:
+    cmds:
+      - nix --version
+      - nil --version
+      - task --version
+      - dprint --version
+      - typos --version

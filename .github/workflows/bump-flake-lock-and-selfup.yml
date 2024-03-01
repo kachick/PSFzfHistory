@@ -1,0 +1,23 @@
+name: Bump flake.lock and related dependencies
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/bump-flake-lock-and-selfup.yml'
+  schedule:
+    # At 10:17 JST on day-of-month 1 and on Monday.
+    # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+    # You can understand the config actually say what in https://crontab.guru/
+    - cron: '17 1 1 * 1'
+  workflow_dispatch:
+
+jobs:
+  bump:
+    uses: kachick/selfup/.github/workflows/reusable-bump-flake-lock-and-selfup.yml@action-v1
+    if: (github.event.sender.login == 'kachick') || (github.event_name != 'pull_request')
+    with:
+      dry-run: ${{ github.event_name == 'pull_request' }}
+      optional-run: |
+        echo 'Add another changes and git commit here, especially for .node-version/.ruby-version'
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}

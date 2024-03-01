@@ -1,0 +1,40 @@
+name: CI - Nix
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ci-nix.yml'
+      - '*.nix'
+      - 'flake.*'
+      - 'Taskfile.yml'
+  pull_request:
+    paths:
+      - '.github/workflows/ci-nix.yml'
+      - '*.nix'
+      - 'flake.*'
+      - 'Taskfile.yml'
+  schedule:
+    # Every 10:42 JST
+    # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+    - cron: '42 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  tasks:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-14
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v9
+      - uses: DeterminateSystems/magic-nix-cache-action@v3
+      - run: nix flake check
+      - run: nix develop --command echo 'This step should be done before any other "nix develop" steps because of measuring Nix build time'
+      - run: nix develop --command task deps
+      - run: nix develop --command task check
+      # - run: nix run . -- --version

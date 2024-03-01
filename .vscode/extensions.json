@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "github.vscode-github-actions",
+    "editorconfig.editorconfig",
+    "tekumara.typos-vscode",
+    "dprint.dprint",
+    "jnoortheen.nix-ide"
+  ]
+}
