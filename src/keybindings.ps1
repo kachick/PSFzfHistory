@@ -5,7 +5,7 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
     $line = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-    $matched = Invoke-Fzf $line
+    $matched = Invoke-Fzf-History $line
     if (!$matched) {
         return
     }

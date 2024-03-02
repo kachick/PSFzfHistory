@@ -1,5 +1,5 @@
 ﻿# Do not add --height option for fzf, it shows nothing in keybind use
-function Invoke-Fzf ([String]$fuzzy) {
+function Invoke-Fzf-History ([String]$fuzzy) {
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
         ForEach-Object { $_.CommandLine.ToString() } |
         Select-String "." |

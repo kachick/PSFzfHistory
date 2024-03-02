@@ -21,7 +21,7 @@ And this
 
 ```pwsh
 # Do not add --height option for fzf, it shows nothing in keybind use
-function Invoke-Fzf ([String]$fuzzy) {
+function Invoke-Fzf-History ([String]$fuzzy) {
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
         ForEach-Object { $_.CommandLine.ToString() } |
         Select-String "." |
@@ -37,7 +37,7 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
     $line = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-    $matched = Invoke-Fzf $line
+    $matched = Invoke-Fzf-History $line
     if (!$matched) {
         return
     }
