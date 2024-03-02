@@ -20,33 +20,35 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 And this
 
 ```pwsh
-function Get-History-Fzf([String]$line) {
+# Do not add --height option for fzf, it shows nothing in keibind use
+function Invoke-Fzf ([String]$fuzzy) {
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
         ForEach-Object { $_.CommandLine.ToString() } |
         Select-String "." |
         Sort-Object |
         Get-Unique |
         Sort-Object LineNumber -Descending |
-        fzf --scheme=history --no-sort --query=$line
+        fzf --scheme=history --no-sort --no-height --query $fuzzy
 }
 
 Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
+    param($key, $arg)
+
     $line = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-    $command = Get-History-Fzf $line
-    if (!$command) {
+    $matched = Invoke-Fzf $line
+    if (!$matched) {
         return
     }
     [Microsoft.PowerShell.PSConsoleReadLine]::BackwardDeleteLine()
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($command)
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($matched)
 }
 ```
 
 ## Limitations
 
 - Loaded history expect one line: https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
-- Adding height option disables keybinding
 
 ## TODO
 
