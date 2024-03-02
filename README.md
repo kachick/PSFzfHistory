@@ -20,7 +20,7 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 And this
 
 ```pwsh
-# Do not add --height option for fzf, it shows nothing in keibind use
+# Do not add --height option for fzf, it shows nothing in keybind use
 function Invoke-Fzf ([String]$fuzzy) {
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
         ForEach-Object { $_.CommandLine.ToString() } |
