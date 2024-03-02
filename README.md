@@ -1,6 +1,6 @@
-# PSFzfHist
+# PSFzfHistory
 
-[![CI - Nix Status](https://github.com/kachick/PSFzfHist/actions/workflows/ci-nix.yml/badge.svg?branch=main)](https://github.com/kachick/PSFzfHist/actions/workflows/ci-nix.yml?query=branch%3Amain+)
+[![CI - Nix Status](https://github.com/kachick/PSFzfHistory/actions/workflows/ci-nix.yml/badge.svg?branch=main)](https://github.com/kachick/PSFzfHistory/actions/workflows/ci-nix.yml?query=branch%3Amain+)
 
 fzf integration for pwsh(PowerShell) to realize history substring search with tiny code
 
