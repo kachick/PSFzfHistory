@@ -21,7 +21,7 @@ tasks:
     cmds:
       - dprint fmt
       - nixpkgs-fmt ./*.nix
-      - pwsh -Command "Invoke-ScriptAnalyzer -Recurse -ReportSummary -EnableExit -Settings CodeFormatting -Fix -Path src"
+      - pwsh -File ./tools/lint-fix.ps1
   lint:
     cmds:
       - dprint check
