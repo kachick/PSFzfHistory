@@ -35,12 +35,4 @@ tasks:
       - pwsh --Command 'Install-Module -Name PSScriptAnalyzer -Force'
   deps:
     cmds:
-      - nix --version
-      - nil --version
-      - task --version
-      - dprint --version
-      - typos --version
-      - pwsh --version
-      - pwsh --Command 'Get-InstalledModule'
-      - grep --version
-      - wc --version
+      - pwsh -File ./tools/deps.ps1
