@@ -16,3 +16,5 @@ function Invoke-FzfHistory ([String]$fuzzy) {
 function Reverse {
     [System.Collections.Stack]::new(@($input))
 }
+
+Export-ModuleMember Invoke-FzfHistory
