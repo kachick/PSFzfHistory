@@ -17,4 +17,27 @@ function Reverse {
     [System.Collections.Stack]::new(@($input))
 }
 
-Export-ModuleMember Invoke-FzfHistory
+function Set-FzfHistoryKeybind {
+    param(
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [string]$Chord
+    )
+
+    # https://learn.microsoft.com/en-us/powershell/module/psreadline/set-psreadlinekeyhandler?view=powershell-7.4
+    Set-PSReadLineKeyHandler -Chord $Chord -ScriptBlock {
+        param($key, $arg)
+
+        $line = $null
+        $cursor = $null
+        [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
+        $matched = Invoke-FzfHistory $line
+        if (!$matched) {
+            return
+        }
+        [Microsoft.PowerShell.PSConsoleReadLine]::BackwardDeleteLine()
+        [Microsoft.PowerShell.PSConsoleReadLine]::Insert($matched)
+    }
+}
+
+Export-ModuleMember -Function ('Invoke-FzfHistory', 'Set-FzfHistoryKeybind')
