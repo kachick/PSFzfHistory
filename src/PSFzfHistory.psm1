@@ -1,16 +1,18 @@
 ﻿# Do not add --height option for fzf, it shows nothing in keybind use
 function Invoke-FzfHistory ([String]$fuzzy) {
-    $reversedCommandSet = [ordered]@{}
-
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
-        & Reverse |
-        ForEach-Object {
-            if (!$reversedCommandSet.Contains($_.CommandLine)) {
-                $reversedCommandSet.Add($_.CommandLine, $true) | Out-Null
-            }
-        }
+        Select-Object -ExpandProperty CommandLine |
+        Reverse |
+        AsOrderedSet |
+        fzf --scheme=history --no-sort --no-height --query $fuzzy
+}
 
-    $reversedCommandSet.Keys | fzf --scheme=history --no-sort --no-height --query $fuzzy
+# Avoid System.Collections.Generic.SortedSet from following points
+# - the sort order is "index", not the character dictionary order
+# - No creation intermediate objects and just used in pipe
+function AsOrderedSet {
+    $set = New-Object System.Collections.Generic.HashSet[string];
+    $input | Where-Object { $set.Add($_) }
 }
 
 function Reverse {
