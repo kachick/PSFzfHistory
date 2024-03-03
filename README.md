@@ -22,17 +22,18 @@ And this is the implementation
 ```pwsh
 # Do not add --height option for fzf, it shows nothing in keybind use
 function Invoke-Fzf-History ([String]$fuzzy) {
-    $orderedCommands = [ordered]@{}
+    $reversedCommandSet = [ordered]@{}
     $reverse = { [System.Collections.Stack]::new(@($input)) }
 
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
+        & $reverse |
         ForEach-Object {
-            if (!$orderedCommands.Contains($_.CommandLine)) {
-                $orderedCommands.Add($_.CommandLine, $true) | Out-Null
+            if (!$reversedCommandSet.Contains($_.CommandLine)) {
+                $reversedCommandSet.Add($_.CommandLine, $true) | Out-Null
             }
         }
 
-    $orderedCommands.Keys | & $reverse | fzf --scheme=history --no-sort --no-height --query $fuzzy
+    $reversedCommandSet.Keys | fzf --scheme=history --no-sort --no-height --query $fuzzy
 }
 ```
 
