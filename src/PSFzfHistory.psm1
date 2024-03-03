@@ -4,7 +4,7 @@ function Invoke-FzfHistory ([String]$fuzzy) {
         Select-Object -ExpandProperty CommandLine |
         Reverse |
         AsOrderedSet |
-        fzf --scheme=history --no-sort --no-height --query $fuzzy
+        fzf --no-sort --no-height --scheme=history --query=$fuzzy
 }
 
 # Avoid System.Collections.Generic.SortedSet from following points
