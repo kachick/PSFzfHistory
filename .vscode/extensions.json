@@ -4,6 +4,7 @@
     "editorconfig.editorconfig",
     "tekumara.typos-vscode",
     "dprint.dprint",
-    "jnoortheen.nix-ide"
+    "jnoortheen.nix-ide",
+    "ms-vscode.powershell"
   ]
 }
