@@ -1,5 +1,5 @@
 ﻿# Do not add --height option for fzf, it shows nothing in keybind use
-function Invoke-Fzf-History ([String]$fuzzy) {
+function Invoke-FzfHistory ([String]$fuzzy) {
     $reversedCommandSet = [ordered]@{}
 
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |

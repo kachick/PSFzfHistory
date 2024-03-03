@@ -21,7 +21,7 @@ And this is the implementation
 
 ```pwsh
 # Do not add --height option for fzf, it shows nothing in keybind use
-function Invoke-Fzf-History ([String]$fuzzy) {
+function Invoke-FzfHistory ([String]$fuzzy) {
     $reversedCommandSet = [ordered]@{}
     $reverse = { [System.Collections.Stack]::new(@($input)) }
 
@@ -46,7 +46,7 @@ Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
     $line = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-    $matched = Invoke-Fzf-History $line
+    $matched = Invoke-FzfHistory $line
     if (!$matched) {
         return
     }
