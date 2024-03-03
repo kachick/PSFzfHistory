@@ -17,51 +17,32 @@ winget install --exact --id junegunn.fzf
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 ```
 
-And this is the implementation
+Now [PowerShell Gallery](https://www.powershellgallery.com/) looks like [not accepting new author or publish](https://github.com/PowerShell/PowerShellGallery/issues/266). So I describe how to load local files here.
+
+Download this module from GitHub and enable from local folder
 
 ```pwsh
-# Do not add --height option for fzf, it shows nothing in keybind use
-function Invoke-FzfHistory ([String]$fuzzy) {
-    $reversedCommandSet = [ordered]@{}
-    $reverse = { [System.Collections.Stack]::new(@($input)) }
-
-    [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
-        & $reverse |
-        ForEach-Object {
-            if (!$reversedCommandSet.Contains($_.CommandLine)) {
-                $reversedCommandSet.Add($_.CommandLine, $true) | Out-Null
-            }
-        }
-
-    $reversedCommandSet.Keys | fzf --scheme=history --no-sort --no-height --query $fuzzy
-}
+Invoke-WebRequest 'https://github.com/kachick/PSFzfHistory/archive/refs/heads/main.zip' -OutFile .\PSFzfHistory.zip
+Expand-Archive .\PSFzfHistory.zip .\
+Remove-Item PSFzfHistory.zip
+Import-Module -Name .\PSFzfHistory-main\src\PSFzfHistory.psm1
 ```
 
-And an example keybinding for me, you can replace the `Ctrl+r` with your preferred
+Now you can use the better history experience
 
 ```pwsh
-Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
-    param($key, $arg)
+Invoke-FzfHistory
+```
 
-    $line = $null
-    $cursor = $null
-    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-    $matched = Invoke-FzfHistory $line
-    if (!$matched) {
-        return
-    }
-    [Microsoft.PowerShell.PSConsoleReadLine]::BackwardDeleteLine()
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($matched)
-}
+And enable the keybind if you want
+
+```pwsh
+Set-FzfHistoryKeybind -Chord Ctrl+r
 ```
 
 ## Limitations
 
 - Loaded history expect one line: https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
-
-## TODO
-
-- (Optional) Provide easy install way
 
 ## Motivation
 
