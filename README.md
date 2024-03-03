@@ -17,7 +17,7 @@ winget install --exact --id junegunn.fzf
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 ```
 
-And this
+And this is the implementation
 
 ```pwsh
 # Do not add --height option for fzf, it shows nothing in keybind use
@@ -34,7 +34,11 @@ function Invoke-Fzf-History ([String]$fuzzy) {
 
     $orderedCommands.Keys | & $reverse | fzf --scheme=history --no-sort --no-height --query $fuzzy
 }
+```
 
+And an example keybinding for me, you can replace the `Ctrl+r` with your preferred
+
+```pwsh
 Set-PSReadLineKeyHandler -Chord Ctrl+r -ScriptBlock {
     param($key, $arg)
 
