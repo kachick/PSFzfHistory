@@ -1,7 +1,7 @@
 ﻿# Do not add --height option for fzf, it shows nothing in keybind use
 function Invoke-FzfHistory ([String]$fuzzy) {
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
-        & Reverse |
+        Reverse |
         Select-Object -ExpandProperty CommandLine |
         AsOrderedSet |
         fzf --scheme=history --no-sort --no-height --query $fuzzy
