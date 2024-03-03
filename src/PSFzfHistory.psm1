@@ -8,8 +8,8 @@ function Invoke-FzfHistory ([String]$fuzzy) {
 }
 
 # Avoid System.Collections.Generic.SortedSet from following points
-# - the sort order is "index", not the character dictionary order
-# - No creation intermediate objects and just used in pipe
+# - required order is "index", character dictionary based order is needless
+# - Avoid to create intermediate objects as possible
 function AsOrderedSet {
     $set = New-Object System.Collections.Generic.HashSet[string];
     $input | Where-Object { $set.Add($_) }

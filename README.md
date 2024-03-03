@@ -2,7 +2,7 @@
 
 [![CI - Nix Status](https://github.com/kachick/PSFzfHistory/actions/workflows/ci-nix.yml/badge.svg?branch=main)](https://github.com/kachick/PSFzfHistory/actions/workflows/ci-nix.yml?query=branch%3Amain+)
 
-fzf integration for pwsh(PowerShell) to realize history substring search with tiny code
+[fzf](https://github.com/junegunn/fzf) integration for PowerShell with small code
 
 ## Usage
 
@@ -19,12 +19,17 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 
 Now [PowerShell Gallery](https://www.powershellgallery.com/) looks like [not accepting new author or publish](https://github.com/PowerShell/PowerShellGallery/issues/266). So I describe how to load local files here.
 
-Download this module from GitHub and enable from local folder
+Download this module from GitHub
 
 ```pwsh
 Invoke-WebRequest 'https://github.com/kachick/PSFzfHistory/archive/refs/heads/main.zip' -OutFile .\PSFzfHistory.zip
 Expand-Archive .\PSFzfHistory.zip .\
 Remove-Item PSFzfHistory.zip
+```
+
+Enable it
+
+```pwsh
 Import-Module -Name .\PSFzfHistory-main\src\PSFzfHistory.psm1
 ```
 
@@ -42,10 +47,13 @@ Set-FzfHistoryKeybind -Chord Ctrl+r
 
 ## Limitations
 
-- Loaded history expect one line: https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
+Multiline history may be unuseful behavior in fzf
+
+- https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
+- https://github.com/junegunn/fzf/issues/154#issuecomment-84503814
 
 ## Motivation
 
-https://github.com/kelleyma49/PSFzf is helpful, but the loading is much slow for me.
-
-I noticed I just want history finder, and we may realize with tiny PowerShell code and depending only fzf.
+I really want history substring search in all shells.\
+[PSFzf](https://github.com/kelleyma49/PSFzf) is a helpful project, but the module loading speed is much slow for me.\
+I noticed I really want integrations only around history, unnecessary for file finders, and we may realize it with tiny PowerShell code.
