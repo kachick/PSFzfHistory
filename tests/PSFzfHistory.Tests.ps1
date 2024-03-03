@@ -3,7 +3,7 @@
 InModuleScope PSFzfHistory {
     Describe 'AsOrderedSet' {
         It 'returns unique elements they are keep first appeared order in original' {
-      (1, 2, 3, 42, 987654321, 42) | AsOrderedSet | Should -BeExactly (1, 2, 3, 42, 987654321)
+          ("foo", "bar", "foo", "baz", "f", "BAR", "bar") | AsOrderedSet | Should -BeExactly ('foo', 'bar', 'baz', 'f', 'BAR')
         }
     }
 
