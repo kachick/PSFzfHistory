@@ -11,13 +11,8 @@ function Invoke-FzfHistory ([String]$fuzzy) {
 # - the sort order is "index", not the character dictionary order
 # - No creation intermediate objects and just used in pipe
 function AsOrderedSet {
-    $set = [ordered]@{}
-    $input | ForEach-Object {
-        if (!$set.Contains($_)) {
-            $set.Add($_, $true) | Out-Null
-        }
-    }
-    $set.Keys
+    $set = New-Object System.Collections.Generic.HashSet[string];
+    $input | Where-Object { $set.Add($_) }
 }
 
 function Reverse {
