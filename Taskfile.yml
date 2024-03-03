@@ -17,6 +17,7 @@ tasks:
       # pwsh exit with 0 even if ReadLine made errors, the 1+ code is special for an example as parser error
       # So testing here with the "silentness"
       - pwsh --File ./tools/test-all.ps1 2>&1 | wc --bytes | grep -Fxq '0'
+      - pwsh --Command 'Test-ModuleManifest -Path *.psd1'
   fmt:
     cmds:
       - dprint fmt
@@ -32,7 +33,7 @@ tasks:
       - pwsh -NoExit -File ./tools/repl.ps1
   setup:
     cmds:
-      - pwsh --Command 'Install-Module -Name PSScriptAnalyzer -Force'
+      - pwsh -File ./tools/setup.ps1
   deps:
     cmds:
       - pwsh -File ./tools/deps.ps1

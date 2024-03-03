@@ -1,2 +1,1 @@
-. .\src\fzf-history.ps1
-. .\src\keybindings.ps1
+Import-Module -Name .\src\PSFzfHistory.psm1
