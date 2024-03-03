@@ -12,11 +12,10 @@
 ```console
 > nix develop
 (prepared bash)
-> dprint --version
+> task help
+task: [help] task --list-all
+task: Available tasks for this project:
+* bench:
+* check:
 ...
 ```
-
-## Note for develop
-
-Map index in pipe: https://github.com/PowerShell/PowerShell/issues/13772
-Formatte, but not CLI - https://github.com/PowerShell/PSScriptAnalyzer

@@ -34,6 +34,12 @@ tasks:
   setup:
     cmds:
       - pwsh -File ./tools/setup.ps1
+  bench:
+    cmds:
+      - pwsh -File ./tools/benchmark.ps1
   deps:
     cmds:
       - pwsh -File ./tools/deps.ps1
+  help:
+    cmds:
+      - task --list-all
