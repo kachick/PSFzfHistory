@@ -15,7 +15,6 @@ function AsOrderedSet {
     $input | Where-Object { $set.Add($_) }
 }
 
-
 function Reverse {
     # Prefer Stack rather than Enumerable::Reverse from the performance
     # See tools/benchmark.ps1 for detail
