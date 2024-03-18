@@ -34,7 +34,7 @@ jobs:
         env:
           NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          Copy-Item -Path .\README.md .\LICENSE -Destination .\PSFzfHistory
+          Copy-Item -Path .\README.md, .\LICENSE -Destination .\PSFzfHistory
           Publish-Module -Path .\PSFzfHistory -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
   github:
     needs: [gallery]
