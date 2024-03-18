@@ -1,0 +1,45 @@
+name: 🚀
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
+  # https://github.com/kachick/PSFzfHistory/issues/12
+  gallery:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: pwsh
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print current config
+        id: meta
+        run: |
+          Get-PSRepository
+          Write-Host "version=$(Import-PowerShellDataFile ./PSFzfHistory.psd1).ModuleVersion)" >> ${env:GITHUB_OUTPUT}
+      - name: Publish
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          Publish-Module -Path .\ -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
+  github:
+    needs: [gallery]
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        # https://pubs.opengroup.org/onlinepubs/009695399/utilities/set.html
+        shell: bash -Ceuxo pipefail {0}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add tags
+        run: |
+          git tag 'v${{ needs.gallery.outputs.version }}'
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # TODO: Upload zipped *.ps* files as the assets
+          gh release create 'v${{ needs.gallery.outputs.version }}' --generate-notes

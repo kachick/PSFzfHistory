@@ -1,4 +1,6 @@
-﻿# Do not add --height option for fzf, it shows nothing in keybind use
+﻿# Copyright (C) 2024 Kenichi Kamiya
+
+# Do not add --height option for fzf, it shows nothing in keybind use
 function Invoke-FzfHistory ([String]$fuzzy) {
     [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() |
         Select-Object -ExpandProperty CommandLine |
