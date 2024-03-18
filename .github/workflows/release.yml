@@ -34,7 +34,7 @@ jobs:
         env:
           NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          Publish-Module -Path .\ -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
+          Publish-Module -Path .\PSFzfHistory -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
   github:
     needs: [gallery]
     runs-on: ubuntu-22.04
