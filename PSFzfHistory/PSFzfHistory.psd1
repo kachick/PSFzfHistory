@@ -12,7 +12,7 @@
     RootModule        = 'PSFzfHistory.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.5'
+    ModuleVersion     = '0.0.6'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -30,7 +30,7 @@
     Copyright         = '(c) Kenichi Kamiya. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'fzf history integration with small code'
+    Description       = 'Tiny fzf integration for history substring search in PowerShell'
 
     # Minimum version of the PowerShell engine required by this module
     # Adjust with bundled PSReadLine

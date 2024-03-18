@@ -40,5 +40,5 @@ Make sure you are really installed the module
 Version              Name                                Repository           Description
 -------              ----                                ----------           -----------
 5.5.0                Pester                              PSGallery            Pester provides a framework for running …
-0.0.1                PSFzfHistory                        MyRepository         fzf history integration with small code
+0.0.6                PSFzfHistory                        MyRepository         Tiny fzf integration for history substr …
 ```
