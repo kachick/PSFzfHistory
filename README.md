@@ -6,41 +6,41 @@
 
 Tiny [fzf](https://github.com/junegunn/fzf) integration for history substring search in PowerShell
 
-## Usage
+## Installation
 
-### Features
+### Requirements
 
-Try this after [whole installation steps](#installation)
-
-```pwsh
-Invoke-FzfHistory
-```
-
-And enable the keybind if you want
-
-```pwsh
-Set-FzfHistoryKeybind -Chord Ctrl+r
-```
-
-### Installation
-
-Install [fzf](https://github.com/junegunn/fzf) with your favorite method, I prefer [winget](https://github.com/microsoft/winget-pkgs/tree/master/manifests/j/junegunn/fzf) in Windows as follows
+Install [fzf](https://github.com/junegunn/fzf) with your favorite method, I prefer [winget](https://github.com/microsoft/winget-pkgs/tree/master/manifests/j/junegunn/fzf) in Windows
 
 ```pwsh
 winget install --exact --id junegunn.fzf
 ```
 
-[PowerShell Gallery](https://www.powershellgallery.com/packages/PSFzfHistory)
+### This Module
+
+via [PowerShell Gallery](https://www.powershellgallery.com/packages/PSFzfHistory)
 
 ```pwsh
 Install-Module -Name PSFzfHistory
 ```
 
-[Local modules](docs/install-from-github.md)
+via [Local modules](docs/install-from-github.md)
 
-#### Enable in your Profile.ps1
+## Usage
 
-In your $PROFILE
+```pwsh
+Invoke-FzfHistory
+```
+
+Enable the keybind if you want
+
+```pwsh
+Set-FzfHistoryKeybind -Chord Ctrl+r
+```
+
+## Optional - Always Enable keybind
+
+Add these code in your $PROFILE(Profile.ps1)
 
 ```pwsh
 # Make sure the winget tools in your PATH
