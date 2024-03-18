@@ -28,19 +28,12 @@ via [Local modules](docs/install-from-github.md)
 
 ## Usage
 
-```pwsh
-Invoke-FzfHistory
-```
+Exported functions
 
-Enable the keybind if you want
+- Invoke-FzfHistory
+- Set-FzfHistoryKeybind
 
-```pwsh
-Set-FzfHistoryKeybind -Chord Ctrl+r
-```
-
-## Optional - Always Enable keybind
-
-Add these code in your $PROFILE(Profile.ps1)
+In typical use, add these code in your $PROFILE(Profile.ps1)
 
 ```pwsh
 # Make sure the winget tools in your PATH
