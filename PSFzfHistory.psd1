@@ -88,7 +88,12 @@ AliasesToExport = @()
 # ModuleList = @()
 
 # List of all files packaged with this module
-# FileList = @()
+FileList = @(
+  'src/PSFzfHistory.psm1',
+  'PSFzfHistory.psd1',
+  'README.md',
+  'LICENSE'
+)
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 PrivateData = @{
