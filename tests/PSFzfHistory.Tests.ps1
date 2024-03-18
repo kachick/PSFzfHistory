@@ -1,4 +1,4 @@
-﻿Import-Module -Name .\src\PSFzfHistory.psm1
+﻿Import-Module -Name .\PSFzfHistory\PSFzfHistory.psm1
 
 InModuleScope PSFzfHistory {
     Describe 'AsOrderedSet' {
