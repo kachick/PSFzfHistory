@@ -9,10 +9,10 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'src/PSFzfHistory.psm1'
+RootModule = 'PSFzfHistory.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.3'
+ModuleVersion = '0.0.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -67,7 +67,7 @@ PowerShellVersion = '5.1'
 # FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-# NestedModules = @('src/PSFzfHistory.psm1')
+# NestedModules = @('PSFzfHistory.psm1')
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @('Invoke-FzfHistory', 'Set-FzfHistoryKeybind')
@@ -88,12 +88,7 @@ AliasesToExport = @()
 # ModuleList = @()
 
 # List of all files packaged with this module
-FileList = @(
-  'src/PSFzfHistory.psm1',
-  'PSFzfHistory.psd1',
-  'README.md',
-  'LICENSE'
-)
+# FileList = @()
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 PrivateData = @{
