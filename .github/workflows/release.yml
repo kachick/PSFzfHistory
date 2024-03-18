@@ -34,6 +34,7 @@ jobs:
         env:
           NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
+          Copy-Item -Path .\README.md .\LICENSE -Destination .\PSFzfHistory
           Publish-Module -Path .\PSFzfHistory -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
   github:
     needs: [gallery]
@@ -52,6 +53,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          Copy-Item -Path .\README.md .\LICENSE -Destination .\PSFzfHistory
           # TODO: Upload zipped PSFzfHistory files as the assets
           gh release create 'v${{ needs.gallery.outputs.version }}' --generate-notes
