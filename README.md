@@ -2,7 +2,7 @@
 
 [![CI - Nix Status](https://github.com/kachick/PSFzfHistory/actions/workflows/ci-nix.yml/badge.svg?branch=main)](https://github.com/kachick/PSFzfHistory/actions/workflows/ci-nix.yml?query=branch%3Amain+)
 [![Release](https://github.com/kachick/PSFzfHistory/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/kachick/PSFzfHistory/actions/workflows/release.yml?query=branch%3Amain+)
-[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/PSFzfHistory)](https://www.powershellgallery.com/packages/PSFzfHistory)
+[![PSGallery Version](https://img.shields.io/powershellgallery/v/PSFzfHistory.svg?style=flat&logo=powershell&label=PSGallery%20Version)](https://www.powershellgallery.com/packages/PSFzfHistory)
 
 Tiny [fzf](https://github.com/junegunn/fzf) integration for history substring search in PowerShell
 
