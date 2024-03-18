@@ -20,6 +20,11 @@ jobs:
         run: |
           Get-PSRepository
           Write-Host "version=$((Import-PowerShellDataFile ./PSFzfHistory.psd1).ModuleVersion)" >> ${env:GITHUB_OUTPUT}
+      - name: Debug output
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test '${{ steps.meta.outputs.version }}' -eq '0.0.3'
       - name: Wait other jobs
         uses: kachick/wait-other-jobs@v2.0.3
         timeout-minutes: 30
