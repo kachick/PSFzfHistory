@@ -47,6 +47,7 @@ jobs:
       - name: Add tags
         run: |
           git tag 'v${{ needs.gallery.outputs.version }}'
+          git push origin --tags
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
