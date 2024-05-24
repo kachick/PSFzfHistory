@@ -21,13 +21,13 @@ tasks:
   fmt:
     cmds:
       - dprint fmt
-      - nixpkgs-fmt ./*.nix
+      - git ls-files '*.nix' | xargs nix fmt
       - pwsh -File ./tools/lint-fix.ps1
   lint:
     cmds:
       - dprint check
       - typos . .github .vscode
-      - nixpkgs-fmt --check ./*.nix
+      - git ls-files '*.nix' | xargs nixfmt --check
   repl:
     cmds:
       - pwsh -NoExit -File ./tools/repl.ps1
