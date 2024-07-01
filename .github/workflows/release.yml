@@ -21,7 +21,7 @@ jobs:
           Get-PSRepository
           Write-Output "version=$((Import-PowerShellDataFile ./PSFzfHistory/PSFzfHistory.psd1).ModuleVersion)" | Tee-Object -Append -FilePath ${env:GITHUB_OUTPUT}
       - name: Wait other jobs
-        uses: kachick/wait-other-jobs@v3.2.0
+        uses: kachick/wait-other-jobs@v3.4.0
         timeout-minutes: 30
         with:
           skip-list: |
