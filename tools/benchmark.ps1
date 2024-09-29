@@ -1,4 +1,7 @@
-﻿# [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() cannot be used non tty? as called in CLI
+﻿$PSNativeCommandUseErrorActionPreference = $true
+$ErrorActionPreference = 'Stop'
+
+# [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems() cannot be used non tty? as called in CLI
 # $lines = [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems()
 $lines = Get-Content -Path ./fixtures/random-guids.txt
 
