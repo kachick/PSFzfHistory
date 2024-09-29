@@ -1,4 +1,7 @@
-﻿# Do NOT use 'Invoke-ScriptAnalyzer -Recurse -Path .' It includes dotfiles as .direnv
+﻿$PSNativeCommandUseErrorActionPreference = $true
+$ErrorActionPreference = 'Stop'
+
+# Do NOT use 'Invoke-ScriptAnalyzer -Recurse -Path .' It includes dotfiles as .direnv
 # https://github.com/PowerShell/PSScriptAnalyzer/issues/561
 Get-ChildItem -Recurse -Path PSFzfHistory -Include "*.ps*1" |
     ForEach-Object {
