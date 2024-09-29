@@ -16,10 +16,8 @@ tasks:
     deps:
       - setup
     cmds:
-      # pwsh exit with 0 even if ReadLine made errors, the 1+ code is special for an example as parser error
-      # So returns 1+ with the result by yourself in each cmd
       - pwsh -NoProfile --File ./tools/test-all.ps1
-      - pwsh -NoProfile --Command 'Test-ModuleManifest -Path ./PSFzfHistory/*.psd1'
+      - pwsh -NoProfile --Command '$PSNativeCommandUseErrorActionPreference = $true; $ErrorActionPreference = "Stop"; Test-ModuleManifest -Path ./PSFzfHistory/*.psd1'
   fmt:
     deps:
       - setup
