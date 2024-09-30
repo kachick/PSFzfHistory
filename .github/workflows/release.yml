@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-24.04
     defaults:
       run:
-        shell: pwsh
+        # See https://github.com/kachick/dotfiles/issues/617 for detail
+        shell: |
+          pwsh -command "$PSNativeCommandUseErrorActionPreference = $true; $ErrorActionPreference = 'stop'; . '{0}'"
     outputs:
       version: ${{ steps.meta.outputs.version }}
     steps:
