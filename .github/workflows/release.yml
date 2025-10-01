@@ -16,7 +16,7 @@ jobs:
     outputs:
       version: ${{ steps.meta.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Print current config
         id: meta
         run: |
@@ -46,7 +46,7 @@ jobs:
         # https://pubs.opengroup.org/onlinepubs/009695399/utilities/set.html
         shell: bash -Ceuxo pipefail {0}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Add tags
         run: |
           git tag 'v${{ needs.gallery.outputs.version }}'
