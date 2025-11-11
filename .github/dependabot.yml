@@ -6,7 +6,3 @@ updates:
       interval: 'monthly'
     ignore:
       - dependency-name: 'crate-ci/typos'
-    groups:
-      nix-actions:
-        patterns:
-          - 'DeterminateSystems*'
