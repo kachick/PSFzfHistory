@@ -13,8 +13,12 @@ function Invoke-FzfHistory ([String]$fuzzy) {
 # - required order is "index", character dictionary based order is needless
 # - Avoid to create intermediate objects as possible
 function AsOrderedSet {
-    $set = New-Object System.Collections.Generic.HashSet[string];
-    $input | Where-Object { $set.Add($_) }
+    $set = [System.Collections.Generic.HashSet[string]]::new()
+    foreach ($line in $input) {
+        if ($set.Add($line)) {
+            $line
+        }
+    }
 }
 
 function Reverse {
