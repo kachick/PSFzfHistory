@@ -47,8 +47,24 @@ jobs:
           }
           ls -l ./test-download/PSFzfHistory.zip
 
-  github:
+  wait:
     needs: [build]
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Wait other jobs
+        uses: kachick/wait-other-jobs@v4.0.0
+        timeout-minutes: 30
+        with:
+          skip-list: |
+            [
+              {
+                "workflowFile": "merge-bot-pr.yml"
+              }
+            ]
+
+  github:
+    needs: [build, wait]
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     defaults:
@@ -87,16 +103,6 @@ jobs:
           pwsh -command "$PSNativeCommandUseErrorActionPreference = $true; $ErrorActionPreference = 'stop'; . '{0}'"
     steps:
       - uses: actions/checkout@v6
-      - name: Wait other jobs
-        uses: kachick/wait-other-jobs@v4.0.0
-        timeout-minutes: 30
-        with:
-          skip-list: |
-            [
-              {
-                "workflowFile": "merge-bot-pr.yml"
-              }
-            ]
       - name: Publish
         env:
           NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
