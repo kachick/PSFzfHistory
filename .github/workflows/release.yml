@@ -1,16 +1,18 @@
 name: 🚀
 
 on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
   workflow_dispatch:
 
 jobs:
-  # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell
-  # https://github.com/kachick/PSFzfHistory/issues/12
-  gallery:
+  # Verify ZIP creation and artifact transfer in PRs
+  build:
     runs-on: ubuntu-24.04
     defaults:
       run:
-        # See https://github.com/kachick/dotfiles/issues/617 for detail
         shell: |
           pwsh -command "$PSNativeCommandUseErrorActionPreference = $true; $ErrorActionPreference = 'stop'; . '{0}'"
     outputs:
@@ -20,8 +22,37 @@ jobs:
       - name: Print current config
         id: meta
         run: |
-          Get-PSRepository
           Write-Output "version=$((Import-PowerShellDataFile ./PSFzfHistory/PSFzfHistory.psd1).ModuleVersion)" | Tee-Object -Append -FilePath ${env:GITHUB_OUTPUT}
+      - name: Prepare Module Folder
+        run: |
+          Copy-Item -Path .\README.md, .\LICENSE -Destination .\PSFzfHistory
+          Compress-Archive -Path .\PSFzfHistory -DestinationPath .\PSFzfHistory.zip
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          path: PSFzfHistory.zip
+          archive: false
+      - name: Verify artifact download
+        uses: actions/download-artifact@v8
+        with:
+          name: PSFzfHistory.zip
+          path: ./test-download
+          skip-decompress: true
+      - name: List downloaded files
+        run: |
+          Get-ChildItem -Recurse ./test-download | Select-Object FullName
+      - name: Check file existence
+        run: |
+          if (-not (Test-Path ./test-download/PSFzfHistory.zip)) {
+            throw "Artifact download failed or file not found at expected path"
+          }
+          ls -l ./test-download/PSFzfHistory.zip
+
+  wait:
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    steps:
       - name: Wait other jobs
         uses: kachick/wait-other-jobs@v4.0.0
         timeout-minutes: 30
@@ -32,14 +63,10 @@ jobs:
                 "workflowFile": "merge-bot-pr.yml"
               }
             ]
-      - name: Publish
-        env:
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          Copy-Item -Path .\README.md, .\LICENSE -Destination .\PSFzfHistory
-          Publish-Module -Path .\PSFzfHistory -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
+
   github:
-    needs: [gallery]
+    needs: [build, wait]
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -47,13 +74,37 @@ jobs:
         shell: bash -Ceuxo pipefail {0}
     steps:
       - uses: actions/checkout@v6
-      - name: Add tags
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: PSFzfHistory.zip
+          path: .
+          skip-decompress: true
+      - name: List downloaded files
         run: |
-          git tag 'v${{ needs.gallery.outputs.version }}'
-          git push origin --tags
+          ls -R .
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # TODO: Upload zipped PSFzfHistory files as the assets
-          gh release create 'v${{ needs.gallery.outputs.version }}' --generate-notes
+          # Use the tag name from the push event
+          gh release create "${{ github.ref_name }}" PSFzfHistory.zip --generate-notes
+
+  gallery:
+    needs: [build, github]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        # See https://github.com/kachick/dotfiles/issues/617 for detail
+        shell: |
+          pwsh -command "$PSNativeCommandUseErrorActionPreference = $true; $ErrorActionPreference = 'stop'; . '{0}'"
+    steps:
+      - uses: actions/checkout@v6
+      - name: Publish
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          # Use files prepared in checkout
+          Copy-Item -Path .\README.md, .\LICENSE -Destination .\PSFzfHistory
+          Publish-Module -Path .\PSFzfHistory -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose

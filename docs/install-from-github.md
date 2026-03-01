@@ -2,6 +2,13 @@
 
 When [PowerShell Gallery](https://www.powershellgallery.com/) is [down](https://github.com/PowerShell/PowerShellGallery/blob/master/psgallery_status.md), refer this document as an example to use local modules.
 
+#### Stable version
+
+You can download the organized `PSFzfHistory.zip` from [GitHub Releases](https://github.com/kachick/PSFzfHistory/releases).
+Just extract it to your `$PSModulePath` or refer to the local repository setup below.
+
+#### Development version (Latest)
+
 Download this module from GitHub
 
 ```pwsh
