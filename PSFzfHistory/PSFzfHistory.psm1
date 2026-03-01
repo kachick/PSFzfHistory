@@ -19,24 +19,6 @@ function Get-UniqueReverseHistory ([Object[]]$historyItems) {
     return $unique
 }
 
-# Avoid System.Collections.Generic.SortedSet from following points
-# - required order is "index", character dictionary based order is needless
-# - Avoid to create intermediate objects as possible
-function AsOrderedSet {
-    $set = [System.Collections.Generic.HashSet[string]]::new()
-    foreach ($line in $input) {
-        if ($set.Add($line)) {
-            $line
-        }
-    }
-}
-
-function Reverse {
-    # Prefer Stack rather than Enumerable::Reverse from the performance
-    # See tools/benchmark.ps1 for detail
-    [System.Collections.Stack]::new(@($input))
-}
-
 function Set-FzfHistoryKeybind {
     param(
         [Parameter(Mandatory)]
