@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
   };
 
   outputs =
@@ -24,7 +24,8 @@
             buildInputs = with pkgs; [
               bashInteractive
               findutils # xargs
-              nixfmt-rfc-style
+              nixfmt
+              nixfmt-tree
               nixd
               go-task
               coreutils
