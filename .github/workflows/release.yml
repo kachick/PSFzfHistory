@@ -40,10 +40,10 @@ jobs:
           Publish-Module -Path .\PSFzfHistory -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
           Compress-Archive -Path .\PSFzfHistory -DestinationPath .\PSFzfHistory.zip
       - name: Upload artifact for GitHub Release
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: PSFzfHistory.zip
           path: PSFzfHistory.zip
+          archive: false
   github:
     needs: [gallery]
     runs-on: ubuntu-24.04
@@ -54,7 +54,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: PSFzfHistory.zip
           path: .
