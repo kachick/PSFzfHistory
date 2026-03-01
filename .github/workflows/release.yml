@@ -36,9 +36,7 @@ jobs:
         with:
           name: PSFzfHistory.zip
           path: ./test-download
-      - name: Debug - List files
-        run: |
-          Get-ChildItem -Recurse ./test-download | Select-Object FullName
+          skip-decompress: true
       - name: Check file existence
         run: |
           if (-not (Test-Path ./test-download/PSFzfHistory.zip)) {
@@ -61,6 +59,7 @@ jobs:
         with:
           name: PSFzfHistory.zip
           path: .
+          skip-decompress: true
       - name: Add tags
         run: |
           git tag 'v${{ needs.build.outputs.version }}'
