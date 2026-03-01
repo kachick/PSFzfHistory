@@ -57,6 +57,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: PSFzfHistory-zip
+          path: .
       - name: Add tags
         run: |
           git tag 'v${{ needs.gallery.outputs.version }}'
