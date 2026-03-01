@@ -36,6 +36,9 @@ jobs:
         with:
           name: PSFzfHistory.zip
           path: ./test-download
+      - name: Debug - List files
+        run: |
+          Get-ChildItem -Recurse ./test-download | Select-Object FullName
       - name: Check file existence
         run: |
           if (-not (Test-Path ./test-download/PSFzfHistory.zip)) {
