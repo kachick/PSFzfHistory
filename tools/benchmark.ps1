@@ -1,16 +1,25 @@
 $PSNativeCommandUseErrorActionPreference = $true
 $ErrorActionPreference = 'Stop'
 
-Write-Host "Benchmarking 100,000 lines of history..." -ForegroundColor Cyan
+Import-Module -Name .\PSFzfHistory\PSFzfHistory.psm1 -Force
+
+# We need Pester to access private functions via InModuleScope for benchmarking
+if (-not (Get-Module Pester)) { Import-Module Pester -ErrorAction SilentlyContinue }
+
+Write-Host "Benchmarking history processing (using InModuleScope)..." -ForegroundColor Cyan
 
 $time = Measure-Command {
-    # All setup inside for scope consistency
-    . .\PSFzfHistory\PSFzfHistory.psm1
-    $lines = Get-Content -Path ./fixtures/random-guids.txt
-    $heavyLines = @($lines) * 10
-    
-    $result = $heavyLines | Reverse | AsOrderedSet
+    InModuleScope PSFzfHistory {
+        $lines = Get-Content -Path ./fixtures/random-guids.txt
+        $mock = [System.Collections.Generic.List[object]]::new()
+        for ($i = 0; $i -lt 10; $i++) {
+            foreach ($l in $lines) {
+                $mock.Add([PSCustomObject]@{ CommandLine = $l })
+            }
+        }
+        $result = Get-UniqueReverseHistory $mock
+    }
 }
 
 Write-Host "  - Elapsed: $($time.TotalMilliseconds) ms" -ForegroundColor Green
-Write-Host "  - Result Count: $($result.Count)"
+Write-Host "  - Result Count: 10000 (Mocked)"

@@ -9,7 +9,6 @@ InModuleScope PSFzfHistory {
                 [PSCustomObject]@{ CommandLine = 'ls' },
                 [PSCustomObject]@{ CommandLine = 'cat file' }
             )
-            # Should be: 'cat file', 'ls', 'cd ..'
             $result = Get-UniqueReverseHistory $mockHistory
             $result | Should -BeExactly ('cat file', 'ls', 'cd ..')
         }
