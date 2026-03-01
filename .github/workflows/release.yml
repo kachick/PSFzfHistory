@@ -38,6 +38,12 @@ jobs:
         run: |
           Copy-Item -Path .\README.md, .\LICENSE -Destination .\PSFzfHistory
           Publish-Module -Path .\PSFzfHistory -NuGetApiKey $env:NUGET_KEY -Repository PSGallery -Verbose
+          Compress-Archive -Path .\PSFzfHistory -DestinationPath .\PSFzfHistory.zip
+      - name: Upload artifact for GitHub Release
+        uses: actions/upload-artifact@v4
+        with:
+          name: PSFzfHistory-zip
+          path: PSFzfHistory.zip
   github:
     needs: [gallery]
     runs-on: ubuntu-24.04
@@ -47,6 +53,10 @@ jobs:
         shell: bash -Ceuxo pipefail {0}
     steps:
       - uses: actions/checkout@v6
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: PSFzfHistory-zip
       - name: Add tags
         run: |
           git tag 'v${{ needs.gallery.outputs.version }}'
@@ -55,5 +65,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # TODO: Upload zipped PSFzfHistory files as the assets
-          gh release create 'v${{ needs.gallery.outputs.version }}' --generate-notes
+          gh release create 'v${{ needs.gallery.outputs.version }}' PSFzfHistory.zip --generate-notes
