@@ -1,10 +1,5 @@
-$PSNativeCommandUseErrorActionPreference = $true
 $ErrorActionPreference = 'Stop'
-
-Import-Module -Name .\PSFzfHistory\PSFzfHistory.psm1 -Force
-
-# We need Pester to access private functions via InModuleScope for benchmarking
-if (-not (Get-Module Pester)) { Import-Module Pester -ErrorAction SilentlyContinue }
+$PSNativeCommandUseErrorActionPreference = $true
 
 Import-Module -Name .\PSFzfHistory\PSFzfHistory.psm1 -Force
 

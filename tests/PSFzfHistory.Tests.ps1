@@ -1,4 +1,4 @@
-﻿Import-Module -Name .\PSFzfHistory\PSFzfHistory.psm1
+﻿Import-Module -Name .\PSFzfHistory\PSFzfHistory.psm1 -Force
 
 InModuleScope PSFzfHistory {
     Describe 'Get-UniqueReverseHistory' {
