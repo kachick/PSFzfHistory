@@ -3,18 +3,20 @@
 # Do not add --height option for fzf, it shows nothing in keybind use
 function Invoke-FzfHistory ([String]$fuzzy) {
     $history = [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems()
+    $uniqueCommands = Get-UniqueReverseHistory $history
+    $uniqueCommands | fzf --no-sort --no-height --scheme=history --query=$fuzzy
+}
+
+# Internal helper to process history items: reverse and unique
+function Get-UniqueReverseHistory ([Object[]]$historyItems) {
     $set = [System.Collections.Generic.HashSet[string]]::new()
-    
-    # Process history from latest to oldest with de-duplication in a single loop
-    # to avoid pipeline overhead of separate 'Reverse' and 'AsOrderedSet' functions.
-    $uniqueCommands = for ($i = $history.Count - 1; $i -ge 0; $i--) {
-        $cmd = $history[$i].CommandLine
+    $unique = for ($i = $historyItems.Count - 1; $i -ge 0; $i--) {
+        $cmd = $historyItems[$i].CommandLine
         if ($set.Add($cmd)) {
             $cmd
         }
     }
-
-    $uniqueCommands | fzf --no-sort --no-height --scheme=history --query=$fuzzy
+    return $unique
 }
 
 # Avoid System.Collections.Generic.SortedSet from following points
