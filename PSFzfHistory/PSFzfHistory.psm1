@@ -4,7 +4,14 @@
 function Invoke-FzfHistory ([String]$fuzzy) {
     $history = [Microsoft.PowerShell.PSConsoleReadLine]::GetHistoryItems()
     $uniqueCommands = Get-UniqueReverseHistory $history
-    $uniqueCommands | fzf --no-sort --no-height --scheme=history --query=$fuzzy
+    # Join with NUL character to support multiline items in fzf
+    $matched = $uniqueCommands -join "`0" | fzf --read0 --no-sort --no-height --scheme=history --query=$fuzzy
+    
+    # fzf output is captured as a string array if it contains newlines.
+    # Join them back with the current system newline.
+    if ($matched) {
+        return $matched -join [System.Environment]::NewLine
+    }
 }
 
 # Internal helper to process history items: reverse and unique
