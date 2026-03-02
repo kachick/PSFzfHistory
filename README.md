@@ -43,13 +43,6 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 Set-FzfHistoryKeybind -Chord Ctrl+r
 ```
 
-## Limitations
-
-Multiline history may be unuseful behavior in fzf
-
-- https://github.com/PowerShell/PSReadLine/issues/494#issuecomment-273358367
-- https://github.com/junegunn/fzf/issues/154#issuecomment-84503814
-
 ## Motivation
 
 I really want history substring search in all shells.\
