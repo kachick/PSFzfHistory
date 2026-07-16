@@ -10,7 +10,7 @@ on:
 jobs:
   # Verify ZIP creation and artifact transfer in PRs
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     defaults:
       run:
         shell: |
@@ -51,7 +51,7 @@ jobs:
   wait:
     needs: [build]
     if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Wait other jobs
         uses: kachick/wait-other-jobs@v4.0.0
@@ -67,7 +67,7 @@ jobs:
   github:
     needs: [build, wait]
     if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     defaults:
       run:
         # https://pubs.opengroup.org/onlinepubs/009695399/utilities/set.html
@@ -93,7 +93,7 @@ jobs:
   gallery:
     needs: [build, github]
     if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     defaults:
       run:
         # See https://github.com/kachick/dotfiles/issues/617 for detail
