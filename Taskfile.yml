@@ -1,4 +1,5 @@
-# https://taskfile.dev
+# https://taskfile.dev/styleguide/
+# Avoid chaining commands with ; or && in a single line. Use multiple cmd items for independent steps, or write a script under scripts/ instead.
 
 version: '3'
 
@@ -8,42 +9,51 @@ tasks:
       - task: fmt
       - task: lint
       - task: test
+
   check:
     deps:
       - task: test
       - task: lint
+
   test:
     deps:
-      - setup
+      - task: setup
     cmds:
       - pwsh -NoProfile --File ./tools/test-all.ps1
       - pwsh -NoProfile --Command '$PSNativeCommandUseErrorActionPreference = $true; $ErrorActionPreference = "Stop"; Test-ModuleManifest -Path ./PSFzfHistory/*.psd1'
+
   fmt:
     deps:
-      - setup
+      - task: setup
     cmds:
       - dprint fmt
       - git ls-files '*.nix' | xargs nix fmt
       - pwsh -File ./tools/lint-fix.ps1
+
   lint:
     cmds:
       - dprint check
-      - typos . .github .vscode
+      - typos . .github
       - git ls-files '*.nix' | xargs nixfmt --check
+
   repl:
     cmds:
       - pwsh -NoProfile -NoExit -File ./tools/repl.ps1
+
   setup:
     cmds:
       - pwsh -NoProfile -File ./tools/setup.ps1
+
   bench:
     deps:
-      - setup
+      - task: setup
     cmds:
       - pwsh -NoProfile -File ./tools/benchmark.ps1
+
   deps:
     cmds:
       - pwsh -NoProfile -File ./tools/deps.ps1
+
   help:
     cmds:
       - task --list-all

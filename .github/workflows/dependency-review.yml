@@ -5,15 +5,19 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   dependency-review:
+    name: Dependency review
     timeout-minutes: 15
     runs-on: ubuntu-slim
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@v7
-      - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # https://spdx.org/licenses/
-          allow-licenses: MIT, BSD-3-Clause, BSD-2-Clause, 0BSD, Unlicense, ISC, Apache-2.0, CC-BY-4.0
+          persist-credentials: false
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0

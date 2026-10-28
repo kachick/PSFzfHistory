@@ -1,0 +1,19 @@
+name: 🤖🆙❄️
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    # 1st of every month at 01:25 UTC (10:25 JST)
+    # Minute and hour are distributed across repositories using CRC32
+    - cron: '25 1 1 * *'
+  workflow_dispatch:
+
+jobs:
+  bump:
+    uses: kachick/workflows/.github/workflows/reusable-bump-flake-lock.yml@main # zizmor: ignore[unpinned-uses]
+    with:
+      app-id: ${{ vars.SAMU_APP_ID }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.SAMU_APP_PRIVATE_KEY }}

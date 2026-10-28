@@ -1,0 +1,46 @@
+# https://github.com/NixOS/nixos-artwork/blob/35ebbbf01c3119005ed180726c388a01d4d1100c/logo/README.md#L5
+name: ❄️
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Every 10:42 JST
+    # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+    - cron: '42 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tasks:
+    name: Tasks
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: NixOS/nix-installer-action@62c1943b776c509394b550f3f983adc14e9212d6 # v1.0.0
+        with:
+          # access-tokens: Prevent GitHub API rate limiting during `nix run github:`
+          extra-conf: |
+            access-tokens = github.com=${{ github.token }}
+            extra-substituters = https://kachick.cachix.org
+            extra-trusted-public-keys = kachick.cachix.org-1:7giZGKW03gPFkbde09JNpDKCbDGGwBuU/Z11W/jUtEQ=
+      - name: Install direnv
+        run: nix profile add --inputs-from . nixpkgs#direnv
+      - name: Load environment variables
+        run: |
+          direnv allow .
+          direnv export gha > "$GITHUB_ENV"
+      - run: nix flake check
+      - run: nix flake show
+      - run: task setup
+      - run: task deps
+      - run: task check
